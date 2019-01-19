@@ -1,0 +1,52 @@
+﻿@model IEnumerable<vidly.Models.movie>
+
+@{
+    ViewBag.Title = "index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>index</h2>
+<table class="table table-bordered table-hover" id="movies">
+    <thead>
+        <tr>
+            <th>movie</th>
+            <th>genra</th>
+        </tr>
+    </thead>
+    @*@foreach (var a in Model)
+    {
+        <tr>
+            <td>@Html.ActionLink(a.name,"New","movies", new { id = a.id }, null)</td>
+            <td>@a.genra.name</td>
+            <td><button class="btn btn-link js-delete" data-movie-id="@a.id">delete</button></td>
+        </tr>
+    }*@
+</table>
+@section scripts
+    {
+    <script>
+        $(document).ready(function () {
+          var tabl=$("#movies").DataTable({
+                ajax: {
+                    url:"/api/movies/",
+                    dataSrc:""
+
+                },
+                columns: [
+                    {
+                        data:"name",
+                       
+                    },
+                    {
+                        data:"genra.name"
+                    },
+                 
+                ]
+
+            });
+
+                
+            });
+    </script>
+   
+    }
+

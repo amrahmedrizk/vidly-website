@@ -1,0 +1,40 @@
+﻿@model vidly.viewmodels.customerviewmodel
+@{
+    ViewBag.Title = "customerform";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>customerform</h2>
+
+@using (Html.BeginForm("save", "customers"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "please fix the following errors")
+    <div class="form-group">
+        @Html.LabelFor(m => m.customer.name)
+        @Html.TextBoxFor(m => m.customer.name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m=>m.customer.name)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.customer.birthdate)
+        @Html.TextBoxFor(m=>m.customer.birthdate,"{0:d mmm yyyy}",new {@class="form-control" })
+        @Html.ValidationMessageFor(m => m.customer.birthdate)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m=>m.customer.membershiptype)
+        @Html.DropDownListFor(m => m.customer.membershiptypeid,new SelectList(Model.membershiptype,"id","name"),"",new { @class="form-control"})
+        @Html.ValidationMessageFor(m=>m.customer.membershiptypeid)
+    </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox"> @Html.CheckBoxFor(m=>m.customer.issubscribedtonewsletter) scripe to news letter?
+        </label>
+    </div>
+    @Html.HiddenFor(m=>m.customer.id)
+    <button type="submit" class="btn btn-primary">save</button>
+
+}
+@section scripts
+    {
+    @Scripts.Render("~/bundles/jqueryval")
+    }

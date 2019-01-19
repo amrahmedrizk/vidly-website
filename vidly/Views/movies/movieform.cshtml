@@ -1,0 +1,63 @@
+﻿@model vidly.viewmodels.movieviewmodel
+@{
+    ViewBag.Title = "movieform";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{ 
+    string word;
+    if (Model.movies.id != 0)
+    {
+        word= "edit movie";
+    }
+    else
+    {
+        word = "new movie";
+    }
+
+}
+
+<h2>@word</h2>
+@using (Html.BeginForm("save", "movies"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "please fix the following errors")
+    <div class="form-group">
+        @Html.LabelFor(m=>m.movies.name)
+        @Html.TextBoxFor(m=>m.movies.name, new {@class="form-control"})
+        @Html.ValidationMessageFor(m=>m.movies.name)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m=>m.movies.releasedate)
+        @Html.TextBoxFor(m=>m.movies.releasedate,new {id="re", @class="form-control"})
+        @Html.ValidationMessageFor(m=>m.movies.releasedate)
+    </div>
+    <div>
+        @Html.LabelFor(m=>m.genra)
+        @Html.DropDownListFor(m=>m.movies.genraid,new SelectList(Model.genra,"id","name"),"",new { @class="form-control"} )
+        @Html.ValidationMessageFor(m=>m.movies.genraid)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m=>m.movies.numberinstock)
+        @Html.TextBoxFor(m=>m.movies.numberinstock,new { @class = "form-control", id = "nu" })
+        @Html.ValidationMessageFor(m=>m.movies.numberinstock)
+    </div>
+    @Html.HiddenFor(m=>m.movies.id)
+    <button class="btn btn-default" type="submit">save</button>
+}
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+<script>
+    if(@Model.movies.id==0)
+    {
+        $(document).ready(function () {
+            document.getElementById("nu").value=2;
+       
+            document.getElementById("re").value="09/09/2009";
+
+       
+
+        });
+    }
+    </script>
+    }
